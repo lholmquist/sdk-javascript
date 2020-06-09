@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { CloudEvent } from "../";
 import { CloudEventV03Attributes } from "../lib/v03";
 import { CloudEventV1Attributes } from "../lib/v1";
+import Extensions from "../lib/extensions";
 
 const { SPEC_V1, SPEC_V03 } = require("../lib/bindings/http/constants");
 
@@ -36,6 +37,18 @@ describe("A CloudEvent", () => {
     const ce = new CloudEvent(message);
     expect(ce.type).to.equal(type);
     expect(ce.source).to.equal(source);
+  });
+
+  it("can be constructed with extensions", () => {
+    const extensions: Extensions = {
+      "extension-key": "extension-value"
+    };
+    const ce = new CloudEvent({
+      extensions, ...fixture
+    });
+    expect(Object.keys(ce.extensions).length).to.equal(1);
+    const value = ce.extensions["extension-key"];
+    expect(value).to.equal(extensions["extension-key"]);
   });
 });
 
