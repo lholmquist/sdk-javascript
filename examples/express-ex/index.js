@@ -21,8 +21,8 @@ app.use((req, res, next) => {
 });
 
 app.post("/", function(req, res) {
-  console.log('HEADERS', req.headers);
-  console.log('BODY', req.body);
+  console.log("HEADERS", req.headers);
+  console.log("BODY", req.body);
 
   try {
     const event = receiver.accept(req.headers, req.body);
