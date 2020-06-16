@@ -1,0 +1,79 @@
+interface Constants {
+  readonly [key: string]: string | Constants
+}
+
+const CONSTANTS: Constants = Object.freeze({
+  HEADERS: "headers",
+  CHARSET_DEFAULT: "utf-8",
+
+  BINARY: "binary",
+  STRUCTURED: "structured",
+
+  SPEC_V03: "0.3",
+  SPEC_V1: "1.0",
+
+  EXTENSIONS_PREFIX: "ce-",
+  DEFAULT_SPEC_VERSION_HEADER: "ce-specversion",
+
+  ENCODING_BASE64: "base64",
+
+  DATA_ATTRIBUTE: "data",
+
+  MIME_JSON: "application/json",
+  MIME_OCTET_STREAM: "application/octet-stream",
+  MIME_CE: "application/cloudevents",
+  MIME_CE_JSON: "application/cloudevents+json",
+
+  HEADER_CONTENT_TYPE: "content-type",
+
+  DEFAULT_CONTENT_TYPE: "application/json; charset=utf-8",
+  DEFAULT_CE_CONTENT_TYPE: "application/cloudevents+json; charset=utf-8",
+
+  BINARY_HEADERS_03: {
+    TYPE: "ce-type",
+    SPEC_VERSION: "ce-specversion",
+    SOURCE: "ce-source",
+    ID: "ce-id",
+    TIME: "ce-time",
+    SCHEMA_URL: "ce-schemaurl",
+    CONTENT_ENCODING: "ce-datacontentencoding",
+    SUBJECT: "ce-subject",
+  },
+  STRUCTURED_ATTRS_03: {
+    TYPE: "type",
+    SPEC_VERSION: "specversion",
+    SOURCE: "source",
+    ID: "id",
+    TIME: "time",
+    SCHEMA_URL: "schemaurl",
+    CONTENT_ENCODING: "datacontentencoding",
+    CONTENT_TYPE: "datacontenttype",
+    SUBJECT: "subject",
+    DATA: "data"
+  },
+
+  BINARY_HEADERS_1: {
+    TYPE: "ce-type",
+    SPEC_VERSION: "ce-specversion",
+    SOURCE: "ce-source",
+    ID: "ce-id",
+    TIME: "ce-time",
+    DATA_SCHEMA: "ce-dataschema",
+    SUBJECT: "ce-subject"
+  },
+
+  STRUCTURED_ATTRS_1: {
+    TYPE: "type",
+    SPEC_VERSION: "specversion",
+    SOURCE: "source",
+    ID: "id",
+    TIME: "time",
+    DATA_SCHEMA: "dataschema",
+    CONTENT_TYPE: "datacontenttype",
+    SUBJECT: "subject",
+    DATA: "data",
+    DATA_BASE64: "data_base64"
+  }
+});
+
+export default CONSTANTS;

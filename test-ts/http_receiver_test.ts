@@ -1,24 +1,14 @@
 import "mocha";
 import { expect } from "chai";
-import { CloudEvent, HTTPReceiver } from "..";
-import { CloudEventV1 } from "../lib/v1";
-const {
-  HEADER_CONTENT_TYPE,
-  DEFAULT_CONTENT_TYPE,
-  MIME_CE_JSON,
-  DEFAULT_SPEC_VERSION_HEADER,
-  BINARY_HEADERS_03,
-  BINARY_HEADERS_1
-} = require("../lib/bindings/http/constants");
-const ValidationError = require("../lib/bindings/http/validation/validation_error.js");
+import { CloudEvent, Receiver, ValidationError } from "../src";
+import { CloudEventV1 } from "../src/event/v1";
 
-const receiver = new HTTPReceiver();
+const receiver = new Receiver();
 const id = "1234";
 const type = "org.cncf.cloudevents.test";
 const source = "urn:event:from:myapi/resourse/123";
-const data = {
-  lunch: "sushi"
-};
+const structuredHeaders = { "content-type": "application/cloudevents+json" };
+const data = { lunch: "sushi" };
 
 describe("HTTP Transport Binding Receiver for CloudEvents", () => {
   describe("HTTP CloudEvent format detection", () => {
@@ -49,24 +39,20 @@ describe("HTTP Transport Binding Receiver for CloudEvents", () => {
         specversion
       };
 
-      const headers = {
-        [HEADER_CONTENT_TYPE]: MIME_CE_JSON
-      };
-
-      const event = receiver.accept(headers, payload);
+      const event = receiver.accept(structuredHeaders, payload);
       validateEvent(event, specversion);
     });
 
     it("Binary data returns a CloudEvent", () => {
-      const headers = {
-        [HEADER_CONTENT_TYPE]: DEFAULT_CONTENT_TYPE,
-        [DEFAULT_SPEC_VERSION_HEADER]: specversion,
-        [BINARY_HEADERS_1.ID]: id,
-        [BINARY_HEADERS_1.TYPE]: type,
-        [BINARY_HEADERS_1.SOURCE]: source
+      const binaryHeaders = {
+        "content-type": "application/json; charset=utf-8",
+        "ce-specversion": specversion,
+        "ce-id": id,
+        "ce-type": type,
+        "ce-source": source
       };
 
-      const event = receiver.accept(headers, data);
+      const event = receiver.accept(binaryHeaders, data);
       validateEvent(event, specversion);
     });
   });
@@ -83,24 +69,20 @@ describe("HTTP Transport Binding Receiver for CloudEvents", () => {
         specversion
       };
 
-      const headers = {
-        [HEADER_CONTENT_TYPE]: MIME_CE_JSON
-      };
-
-      const event = receiver.accept(headers, payload);
+      const event = receiver.accept(structuredHeaders, payload);
       validateEvent(event, specversion);
     });
 
     it("Binary data returns a CloudEvent", () => {
-      const headers = {
-        [HEADER_CONTENT_TYPE]: DEFAULT_CONTENT_TYPE,
-        [DEFAULT_SPEC_VERSION_HEADER]: specversion,
-        [BINARY_HEADERS_03.ID]: id,
-        [BINARY_HEADERS_03.TYPE]: type,
-        [BINARY_HEADERS_03.SOURCE]: source
+      const binaryHeaders = {
+        "content-type": "application/json; charset=utf-8",
+        "ce-specversion": specversion,
+        "ce-id": id,
+        "ce-type": type,
+        "ce-source": source
       };
 
-      const event = receiver.accept(headers, data);
+      const event = receiver.accept(binaryHeaders, data);
       validateEvent(event, specversion);
     });
   });

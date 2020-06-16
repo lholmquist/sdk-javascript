@@ -1,0 +1,41 @@
+import "mocha";
+import { expect } from "chai";
+import { CloudEvent, Receiver, Emitter, Version } from "../src";
+
+const fixture = {
+  type: "org.cloudevents.test",
+  source: "http://cloudevents.io"
+};
+
+describe("The SDK Requirements", () => {
+  it("should expose a CloudEvent type", () => {
+    const event = CloudEvent.create(fixture);
+    expect(event instanceof CloudEvent).to.equal(true);
+  });
+
+  it("should expose a Receiver type", () => {
+    const receiver = new Receiver();
+    expect(receiver instanceof Receiver).to.equal(true);
+  });
+
+  it("should expose an Emitter type", () => {
+    const emitter = new Emitter({
+      url: "http://example.com"
+    });
+    expect(emitter instanceof Emitter).to.equal(true);
+  });
+
+  describe("v0.3", () => {
+    it("should create an event using the right spec version", () => {
+      expect(CloudEvent.create({
+        ...fixture
+      }, Version.V03).specversion).to.equal(Version.V03);
+    });
+  });
+
+  describe("v1.0", () => {
+    it("should create an event using the right spec version", () => {
+      expect(CloudEvent.create(fixture).specversion).to.equal(Version.V1);
+    });
+  });
+});

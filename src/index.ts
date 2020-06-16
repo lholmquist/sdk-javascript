@@ -1,11 +1,6 @@
-import { CloudEvent } from "./lib/cloudevent";
-import { HTTPReceiver } from "./lib/bindings/http/http_receiver";
-import { HTTPEmitter } from "./lib/bindings/http/http_emitter";
-const Constants = require("./lib/bindings/http/constants");
+export * from "./event";
+export * from "./transport";
 
-export = {
-  CloudEvent,
-  HTTPReceiver,
-  HTTPEmitter,
-  Constants
-};
+// export * from "./lib/bindings/http/http_receiver";
+// export * from "./lib/bindings/http/http_emitter";
+// export * from "./lib/bindings/http/constants";

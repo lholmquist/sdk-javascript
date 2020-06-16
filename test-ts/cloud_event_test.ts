@@ -1,40 +1,23 @@
 import { expect } from "chai";
-import { CloudEvent } from "../";
-import { CloudEventV03Attributes } from "../lib/v03";
-import { CloudEventV1Attributes } from "../lib/v1";
-import Extensions from "../lib/extensions";
-
-const { SPEC_V1, SPEC_V03 } = require("../lib/bindings/http/constants");
-
-interface Message {
-  type: string;
-  subject: string;
-  data: any;
-  source: string;
-  dataContentType: string;
-}
+import { CloudEvent, v1, v03, Version } from "../src";
+import { CloudEventV03 } from "../src/event/v03";
+import { CloudEventV1 } from "../src/event/v1";
+import Extensions from "../src/event/extensions";
 
 const type = "org.cncf.cloudevents.example";
 const source = "http://unit.test";
+const id = "b46cf653-d48a-4b90-8dfa-355c01061361";
 
-const message: Message = {
-  type,
-  source,
-  subject: "greeting",
-  data: {
-      hello: "world"
-  },
-  dataContentType: "application/json"
-};
-
-const fixture: CloudEventV1Attributes|CloudEventV03Attributes = {
+const fixture: CloudEventV1 = {
+  id,
+  specversion: Version.V1,
   source,
   type
 };
 
 describe("A CloudEvent", () => {
   it("Can be constructed with a typed Message", () => {
-    const ce = new CloudEvent(message);
+    const ce = CloudEvent.create(fixture);
     expect(ce.type).to.equal(type);
     expect(ce.source).to.equal(source);
   });
@@ -48,23 +31,18 @@ describe("A 1.0 CloudEvent", () => {
   });
 
   it("defaults to specversion 1.0", () => {
-    const ce = new CloudEvent(fixture);
+    const ce = CloudEvent.create({ source, type });
     expect(ce.specversion).to.equal("1.0");
   });
 
   it("generates an ID if one is not provided in the constructor", () => {
-    const ce = new CloudEvent(fixture);
+    const ce = CloudEvent.create({ source, type });
     expect(ce.id).to.not.be.empty;
   })
 
-  it("can be created with the specversion SPEC_V1", () => {
-    const ce = new CloudEvent({ specversion: SPEC_V1, ...fixture });
-    expect(ce.specversion).to.equal(SPEC_V1);
-  });
-
   it("can be constructed with an ID", () => {
-    const ce = new CloudEvent({ id: 1234, ...fixture });
-    expect(ce.id).to.equal(1234);
+    const ce = new CloudEvent({ id: "1234", specversion: Version.V1, source, type });
+    expect(ce.id).to.equal("1234");
   });
 
   it("generates a timestamp by default", () => {
@@ -73,9 +51,9 @@ describe("A 1.0 CloudEvent", () => {
   });
 
   it("can be constructed with a timestamp", () => {
-    const time = new Date();
+    const time = new Date().toISOString();
     const ce = new CloudEvent({ time, ...fixture });
-    expect(ce.time).to.equal(time.toISOString());
+    expect(ce.time).to.equal(time);
   });
 
   it("can be constructed with a dataContentType", () => {
@@ -99,13 +77,6 @@ describe("A 1.0 CloudEvent", () => {
       .to.throw(TypeError, "cannot set schemaURL on version 1.0 event");
   });
 
-  // Handle deprecated attribute - should this really throw?
-  it("throws a TypeError when getting a schemaURL", () => {
-    const ce = new CloudEvent(fixture);
-    expect(() => { ce.schemaURL; })
-      .to.throw(TypeError, "cannot get schemaURL from version 1.0 event");
-  });
-
   it("can be constructed with data", () => {
     const data = { lunch: "tacos" };
     const ce = new CloudEvent({
@@ -117,7 +88,7 @@ describe("A 1.0 CloudEvent", () => {
   it("has extensions as an empty object by default", () => {
     const ce = new CloudEvent(fixture);
     expect(ce.extensions).to.be.an('object')
-    expect(Object.keys(ce.extensions).length).to.equal(0);
+    expect(Object.keys(ce.extensions as object).length).to.equal(0);
   });
 
   it("can be constructed with extensions", () => {
@@ -127,8 +98,8 @@ describe("A 1.0 CloudEvent", () => {
     const ce = new CloudEvent({
       extensions, ...fixture
     });
-    expect(Object.keys(ce.extensions).length).to.equal(1);
-    expect(ce.extensions["extension-key"]).to.equal(extensions["extension-key"]);
+    expect(Object.keys(ce.extensions as object).length).to.equal(1);
+    expect(ce.extensions!["extension-key"]).to.equal(extensions["extension-key"]);
   });
 
   it("throws ValidationError if the CloudEvent does not conform to the schema");
@@ -138,7 +109,8 @@ describe("A 1.0 CloudEvent", () => {
 
 
 describe("A 0.3 CloudEvent", () => {
-  const v03fixture: CloudEventV03Attributes = { specversion: SPEC_V03, ...fixture };
+  const v03fixture: CloudEventV03 = { ...fixture };
+  v03fixture.specversion = Version.V03;
 
   it("has retreivable source and type attributes", () => {
     const ce = new CloudEvent(v03fixture);
@@ -147,14 +119,10 @@ describe("A 0.3 CloudEvent", () => {
   });
 
   it("generates an ID if one is not provided in the constructor", () => {
-    const ce = new CloudEvent(v03fixture);
+    const ce = CloudEvent.create({ source, type }, Version.V03);
     expect(ce.id).to.not.be.empty;
+    expect(ce.specversion).to.equal(Version.V03);
   })
-
-  it("can be constructed with an ID", () => {
-    const ce = new CloudEvent({ id: 1234, ...v03fixture });
-    expect(ce.id).to.equal(1234);
-  });
 
   it("generates a timestamp by default", () => {
     const ce = new CloudEvent(v03fixture);
@@ -191,13 +159,6 @@ describe("A 0.3 CloudEvent", () => {
   it("throws a TypeError when constructed with a dataSchema", () => {
     expect(() => { new CloudEvent({ dataSchema: "http://throw.com", ...v03fixture }); })
       .to.throw(TypeError, "cannot set dataSchema on version 0.3 event");
-  });
-
-  // Handle deprecated attribute - should this really throw?
-  it("throws a TypeError when getting a dataSchema", () => {
-    const ce = new CloudEvent(v03fixture);
-    expect(() => { ce.dataSchema; })
-      .to.throw(TypeError, "cannot get dataSchema from version 0.3 event");
   });
 
   it("can be constructed with data", () => {
