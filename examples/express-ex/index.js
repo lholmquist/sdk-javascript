@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 
 const express = require("express");
-const { HTTPReceiver } = require("cloudevents-sdk");
+const { Receiver } = require("cloudevents-sdk");
 
 const app = express();
-const receiver = new HTTPReceiver();
+const receiver = new Receiver();
 
 app.use((req, res, next) => {
   let data = "";
@@ -21,13 +21,14 @@ app.use((req, res, next) => {
 });
 
 app.post("/", function(req, res) {
-  console.log(req.headers);
-  console.log(req.body);
+  console.log('HEADERS', req.headers);
+  console.log('BODY', req.body);
 
   try {
     const event = receiver.accept(req.headers, req.body);
-    const asJSON = event.format();
-    console.log(`Accepted event: ${JSON.stringify(event.format(), null, 2)}`);
+    // event.validate();
+    const asJSON = JSON.stringify(event);
+    console.log(`Accepted event: ${asJSON}`);
     res.status(201).json(asJSON);
   } catch (err) {
     console.error(err);
