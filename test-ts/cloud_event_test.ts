@@ -56,14 +56,14 @@ describe("A 1.0 CloudEvent", () => {
     expect(ce.time).to.equal(time);
   });
 
-  it("can be constructed with a dataContentType", () => {
-    const ce = new CloudEvent({ dataContentType: "application/json", ...fixture });
-    expect(ce.dataContentType).to.equal("application/json");
+  it("can be constructed with a datacontenttype", () => {
+    const ce = new CloudEvent({ datacontenttype: "application/json", ...fixture });
+    expect(ce.datacontenttype).to.equal("application/json");
   });
 
-  it("can be constructed with a dataSchema", () => {
-    const ce = new CloudEvent({ dataSchema: "http://my.schema", ...fixture });
-    expect(ce.dataSchema).to.equal("http://my.schema");
+  it("can be constructed with a dataschema", () => {
+    const ce = new CloudEvent({ dataschema: "http://my.schema", ...fixture });
+    expect(ce.dataschema).to.equal("http://my.schema");
   });
 
   it("can be constructed with a subject", () => {
@@ -73,8 +73,8 @@ describe("A 1.0 CloudEvent", () => {
 
   // Handle deprecated attribute - should this really throw?
   it("throws a TypeError when constructed with a schemaurl", () => {
-    expect(() => { new CloudEvent({ schemaURL: "http://throw.com", ...fixture }); })
-      .to.throw(TypeError, "cannot set schemaURL on version 1.0 event");
+    expect(() => { new CloudEvent({ schemaurl: "http://throw.com", ...fixture }); })
+      .to.throw(TypeError, "cannot set schemaurl on version 1.0 event");
   });
 
   it("can be constructed with data", () => {
@@ -135,19 +135,19 @@ describe("A 0.3 CloudEvent", () => {
     expect(ce.time).to.equal(time.toISOString());
   });
 
-  it("can be constructed with a dataContentType", () => {
-    const ce = new CloudEvent({ dataContentType: "application/json", ...v03fixture });
-    expect(ce.dataContentType).to.equal("application/json");
+  it("can be constructed with a datacontenttype", () => {
+    const ce = new CloudEvent({ datacontenttype: "application/json", ...v03fixture });
+    expect(ce.datacontenttype).to.equal("application/json");
   });
 
-  it("can be constructed with a dataContentEncoding", () => {
-    const ce = new CloudEvent({ dataContentEncoding: "Base64", ...v03fixture });
-    expect(ce.dataContentEncoding).to.equal("Base64");
+  it("can be constructed with a datacontentencoding", () => {
+    const ce = new CloudEvent({ datacontentencoding: "Base64", ...v03fixture });
+    expect(ce.datacontentencoding).to.equal("Base64");
   });
 
-  it("can be constructed with a schemaURL", () => {
-    const ce = new CloudEvent({ schemaURL: "http://my.schema", ...v03fixture });
-    expect(ce.schemaURL).to.equal("http://my.schema");
+  it("can be constructed with a schemaurl", () => {
+    const ce = new CloudEvent({ schemaurl: "http://my.schema", ...v03fixture });
+    expect(ce.schemaurl).to.equal("http://my.schema");
   });
 
   it("can be constructed with a subject", () => {
@@ -156,9 +156,9 @@ describe("A 0.3 CloudEvent", () => {
   });
 
   // Handle 1.0 attribute - should this really throw?
-  it("throws a TypeError when constructed with a dataSchema", () => {
-    expect(() => { new CloudEvent({ dataSchema: "http://throw.com", ...v03fixture }); })
-      .to.throw(TypeError, "cannot set dataSchema on version 0.3 event");
+  it("throws a TypeError when constructed with a dataschema", () => {
+    expect(() => { new CloudEvent({ dataschema: "http://throw.com", ...v03fixture }); })
+      .to.throw(TypeError, "cannot set dataschema on version 0.3 event");
   });
 
   it("can be constructed with data", () => {

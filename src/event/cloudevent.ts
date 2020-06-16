@@ -37,8 +37,8 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
     this.subject = event.subject;
     this.time = event.time;
     this.data = event.data;
-    // @ts-ignore - dataSchema is not on a CloudEventV03
-    this.dataSchema = event.dataschema;
+    // @ts-ignore - dataschema is not on a CloudEventV03
+    this.dataschema = event.dataschema;
     // @ts-ignore - dataBase64 is not on CloudEventV03
     this.data_base64 = event.data_base64;
 
@@ -50,7 +50,7 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
 
     // @ts-ignore - dataContentEncoding is not on a CloudEventV1
     this.datacontentencoding = event.datacontentencoding;
-    // @ts-ignore - schemaURL is not on a CloudEventV1
+    // @ts-ignore - schemaurl is not on a CloudEventV1
     this.schemaurl = event.schemaurl;
 
     this.extensions = { ...event.extensions };
@@ -58,9 +58,9 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
     // TODO: Deprecated in 1.0
     // sanity checking
     if (this.specversion === Version.V1 && this.schemaurl) {
-      throw new TypeError("cannot set schemaURL on version 1.0 event");
+      throw new TypeError("cannot set schemaurl on version 1.0 event");
     } else if (this.specversion === Version.V03 && this.dataschema) {
-      throw new TypeError("cannot set dataSchema on version 0.3 event");
+      throw new TypeError("cannot set dataschema on version 0.3 event");
     }
   }
 
