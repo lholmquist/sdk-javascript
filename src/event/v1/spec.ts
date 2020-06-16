@@ -44,10 +44,7 @@ export function validate(event: CloudEventV1): boolean {
 
 function checkExtensions(extensions: Extensions) {
   for (const key in extensions) {
-    if (!Object.prototype.hasOwnProperty.call(RESERVED_ATTRIBUTES, key)) {
-      if (isValidType(extensions[key])) return;
-      else throw new ValidationError("Invalid type of extension value");
-    } else {
+    if (Object.prototype.hasOwnProperty.call(RESERVED_ATTRIBUTES, key)) {
       throw new ValidationError(`Reserved attribute name: '${key}'`);
     }
   }

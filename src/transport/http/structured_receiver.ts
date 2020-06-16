@@ -54,7 +54,8 @@ export class StructuredHTTPReceiver {
       eventObj.extensions[key] = incoming[key];
     }
 
-    const cloudevent = CloudEvent.create(eventObj as CloudEventV1|CloudEventV03);
+    const cloudevent = CloudEvent.create(eventObj as CloudEventV1 | CloudEventV03);
+    console.log('EVGEGNTOBJ', eventObj)
 
     // Validates the event
     this.version === Version.V1 ? validateV1(cloudevent) : validateV03(cloudevent);

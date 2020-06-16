@@ -49,12 +49,7 @@ export class BinaryHTTPReceiver {
       }
     });
 
-    let parser;
-    if (eventObj.dataContentEncoding) {
-      parser = parserByEncoding[eventObj.dataContentEncoding][eventObj.dataContentType];
-    } else {
-      parser = parserByContentType[eventObj.dataContentType];
-    }
+    const parser = parserByContentType[eventObj.datacontenttype];
     const parsedPayload = parser.parse(payload);
 
     // Every unprocessed header can be an extension

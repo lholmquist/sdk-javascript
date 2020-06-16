@@ -16,28 +16,31 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
   type: string;
   source: string;
   specversion: Version;
-  dataContentType?: string;
-  dataSchema?: string; // TODO: Is a URI type needed?
+  datacontenttype?: string;
+  dataschema?: string; // TODO: Is a URI type needed?
   subject?: string;
   time?: string|Date;
   data?: any;
+  data_base64?: any;
   extensions?: Extensions;
 
   // V03 deprecated attributes
-  schemaURL?: string;
-  dataContentEncoding?: string;
+  schemaurl?: string;
+  datacontentencoding?: string;
 
   constructor(event: CloudEventV1 | CloudEventV03) {
     this.id = event.id || uuidv4();
     this.type = event.type;
     this.source = event.source;
     this.specversion = event.specversion as Version || Version.V1;
-    this.dataContentType = event.dataContentType;
-    // @ts-ignore - dataSchema is not on a CloudEventV03
-    this.dataSchema = event.dataSchema;
+    this.datacontenttype = event.datacontenttype;
     this.subject = event.subject;
     this.time = event.time;
     this.data = event.data;
+    // @ts-ignore - dataSchema is not on a CloudEventV03
+    this.dataSchema = event.dataschema;
+    // @ts-ignore - dataBase64 is not on CloudEventV03
+    this.data_base64 = event.data_base64;
 
     if (!this.time) {
       this.time = new Date().toISOString();
@@ -46,17 +49,17 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
     }
 
     // @ts-ignore - dataContentEncoding is not on a CloudEventV1
-    this.dataContentEncoding = event.dataContentEncoding;
+    this.datacontentencoding = event.datacontentencoding;
     // @ts-ignore - schemaURL is not on a CloudEventV1
-    this.schemaURL = event.schemaURL;
+    this.schemaurl = event.schemaurl;
 
     this.extensions = { ...event.extensions };
 
     // TODO: Deprecated in 1.0
     // sanity checking
-    if (this.specversion === Version.V1 && this.schemaURL) {
+    if (this.specversion === Version.V1 && this.schemaurl) {
       throw new TypeError("cannot set schemaURL on version 1.0 event");
-    } else if (this.specversion === Version.V03 && this.dataSchema) {
+    } else if (this.specversion === Version.V03 && this.dataschema) {
       throw new TypeError("cannot set dataSchema on version 0.3 event");
     }
   }

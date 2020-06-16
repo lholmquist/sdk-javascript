@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import Ajv from "ajv";
-import { ValidationError, isBase64, isValidType } from "../validation";
+import { ValidationError, isValidType } from "../validation";
 import { CloudEventV03, CloudEventV03Attributes } from "./cloudevent";
 import { CloudEvent } from "../..";
 
@@ -15,12 +15,6 @@ const RESERVED_ATTRIBUTES = {
   datacontenttype: "datacontenttype",
   subject: "subject",
   data: "data"
-};
-
-const SUPPORTED_CONTENT_ENCODING = {
-  base64: {
-    check: (data: any) => isBase64(data)
-  }
 };
 
 import { schema } from "./schema";
@@ -39,6 +33,7 @@ export function create(attributes: CloudEventV03Attributes) : CloudEventV03 {
 }
 
 export function validate(event: CloudEventV03): boolean {
+  console.log(`validating ${JSON.stringify(event)}`)
   if (!isValidAgainstSchema(event)) {
     throw new ValidationError("invalid payload", isValidAgainstSchema.errors);
   }
@@ -48,10 +43,7 @@ export function validate(event: CloudEventV03): boolean {
 
 function checkExtensions(extensions: Extensions) {
   for (const key in extensions) {
-    if (!Object.prototype.hasOwnProperty.call(RESERVED_ATTRIBUTES, key)) {
-      if (isValidType(extensions[key])) return;
-      else throw new ValidationError("Invalid type of extension value");
-    } else {
+    if (Object.prototype.hasOwnProperty.call(RESERVED_ATTRIBUTES, key)) {
       throw new ValidationError(`Reserved attribute name: '${key}'`);
     }
   }

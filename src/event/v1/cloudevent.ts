@@ -75,7 +75,7 @@ export interface CloudEventV1Attributes {
    * example, the JSON event format defines the relationship in
    * [section 3.1](./json-format.md#31-handling-of-data).
    */
-  dataContentType?: string;
+  datacontenttype?: string;
   /**
    * [OPTIONAL] Identifies the schema that `data` adheres to. Incompatible
    * changes to the schema SHOULD be reflected by a different URI. See
@@ -83,7 +83,7 @@ export interface CloudEventV1Attributes {
    * for more information.
    * If present, MUST be a non-empty URI.
    */
-  dataSchema?: string;
+  dataschema?: string;
   /**
    * [OPTIONAL] This describes the subject of the event in the context of the
    * event producer (identified by `source`). In publish-subscribe scenarios, a
@@ -122,6 +122,13 @@ export interface CloudEventV1Attributes {
    */
   // tslint:disable-next-line:no-any
   data?: any | string | number | boolean | null;
+
+  /**
+   * [OPTIONAL] The event payload encoded as base64 data. This is used when the
+   * data is in binary form.
+   * @see https://github.com/cloudevents/spec/blob/v1.0/json-format.md#31-handling-of-data
+   */
+  data_base64?: string
   /**
    * [OPTIONAL] CloudEvents extension attributes.
    */

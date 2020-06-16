@@ -71,7 +71,7 @@ export interface CloudEventV03Attributes {
    * media type. When the data field's effective data type is not String, this attribute
    * MUST NOT be set and MUST be ignored when set.
    */
-  dataContentEncoding?: string;
+  datacontentencoding?: string;
 
   /**
    * [OPTIONAL] Content type of `data` value. This attribute enables `data` to
@@ -84,13 +84,13 @@ export interface CloudEventV03Attributes {
    * example, the JSON event format defines the relationship in
    * [section 3.1](./json-format.md#31-handling-of-data).
    */
-  dataContentType?: string;
+  datacontenttype?: string;
   /**
    * [OPTIONAL] A link to the schema that the data attribute adheres to.
    * Incompatible changes to the schema SHOULD be reflected by a different URL.
    * If present, MUST be a non-empty URI.
    */
-  schemaURL?: string;
+  schemaurl?: string;
   /**
    * [OPTIONAL] This describes the subject of the event in the context of the
    * event producer (identified by `source`). In publish-subscribe scenarios, a

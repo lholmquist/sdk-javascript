@@ -24,12 +24,12 @@ function parser(header: string, parser = passThrough): MappedParser {
  * using the CloudEvent getter function.
  */
 export const headerMap: Map<string, MappedParser> = new Map();
-headerMap.set("dataContentType", parser(HEADER_CONTENT_TYPE));
-headerMap.set("dataContentEncoding", parser(CONTENT_ENCODING));
+headerMap.set("datacontenttype", parser(HEADER_CONTENT_TYPE));
+headerMap.set("datacontentencoding", parser(CONTENT_ENCODING));
 headerMap.set("subject", parser(SUBJECT));
 headerMap.set("type", parser(TYPE));
 headerMap.set("specversion", parser(SPEC_VERSION));
 headerMap.set("source", parser(SOURCE));
 headerMap.set("id", parser(ID));
 headerMap.set("time", parser(TIME));
-headerMap.set("schemaURL", parser(SCHEMA_URL));
+headerMap.set("schemaurl", parser(SCHEMA_URL));
