@@ -33,7 +33,6 @@ export function create(attributes: CloudEventV03Attributes) : CloudEventV03 {
 }
 
 export function validate(event: CloudEventV03): boolean {
-  console.log(`validating ${JSON.stringify(event)}`)
   if (!isValidAgainstSchema(event)) {
     throw new ValidationError("invalid payload", isValidAgainstSchema.errors);
   }

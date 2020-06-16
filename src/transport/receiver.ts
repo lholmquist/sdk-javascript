@@ -6,6 +6,10 @@ import { CloudEventV03 } from "../event/v03";
 import { CloudEventV1 } from "../event/v1";
 import { Protocol } from "./protocols";
 
+export enum Mode {
+  BINARY = "binary", STRUCTURED = "structured"
+}
+
 /**
  * A class to receive a CloudEvent from an HTTP POST request.
  */
@@ -50,7 +54,7 @@ export class Receiver {
    * @return {CloudEvent} A new {CloudEvent} instance
    */
   accept(headers: Headers, body: string | object | CloudEventV1 | CloudEventV03): CloudEvent {
-    const mode: string = getMode(headers);
+    const mode: Mode = getMode(headers);
     const version = getVersion(mode, headers, body);
     switch (version) {
       case Version.V1:
@@ -64,17 +68,17 @@ export class Receiver {
   }
 }
 
-function getMode(headers: Headers): string {
+function getMode(headers: Headers): Mode {
   const contentType = headers["content-type"];
   if (contentType && contentType.startsWith("application/cloudevents")) {
-    return "structured";
+    return Mode.STRUCTURED;
   }
-  if (headers["ce-id"]) { return "binary"; }
+  if (headers["ce-id"]) { return Mode.BINARY; }
   throw new ValidationError("no cloud event detected");
 }
 
-function getVersion(mode: string, headers: Headers, body: string | object | CloudEventV03 | CloudEventV1) {
-  if (mode === "binary") {
+function getVersion(mode: Mode, headers: Headers, body: string | object | CloudEventV03 | CloudEventV1) {
+  if (mode === Mode.BINARY) {
     // Check the headers for the version
     const versionHeader = headers["ce-specversion"];
     if (versionHeader) {
