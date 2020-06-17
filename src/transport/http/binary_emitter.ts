@@ -18,7 +18,7 @@ async function emit(event: CloudEvent, options: Options, headers: Headers): Prom
   const config = {
     ...options,
     method: "POST",
-    headers: { ...contentType, ...headers },
+    headers: { ...contentType, ...headers, ...options.headers as Headers},
     data: asData(event.data, event.datacontenttype as string)
   };
   return axios.request(config as AxiosRequestConfig);

@@ -68,6 +68,17 @@ describe("HTTP Transport Binding Emitter for CloudEvents", () => {
       expect(headers[v1Headers.BINARY_HEADERS.TIME]).to.equal(event.time);
     });
 
+    it("Sends a binary CloudEvent with Custom Headers", () => {
+      emitter.send(event, { headers: { customheader: "value" } }).then((response: { data: { [k: string]: string } }) => {
+        // A binary message will have a ce-id header
+        expect(response.data.customheader).to.equal("value");
+        expect(response.data[v1Headers.BINARY_HEADERS.ID]).to.equal(event.id);
+        expect(response.data[v1Headers.BINARY_HEADERS.SPEC_VERSION]).to.equal(Version.V1);
+        // A binary message will have a request body for the data
+        expect(response.data.lunchBreak).to.equal(data.lunchBreak);
+      }).catch(expect.fail);
+    });
+
     it("Sends a structured 1.0 CloudEvent if specified", () => {
       emitter.send(event, { protocol: Protocol.HTTPStructured })
         .then((response: { data: { [k: string]: string | {}, data: { lunchBreak: string } } }) => {
