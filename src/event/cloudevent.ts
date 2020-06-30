@@ -98,6 +98,8 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
     for (const [key, value] of Object.entries(properties)) {
       this[key] = value;
     }
+
+    this.validate();
   }
 
   get time(): string | Date {
