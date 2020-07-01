@@ -107,13 +107,12 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
       // value is the value on the right side of the equal sign
       set: function (obj, prop: string, value) {
         // Make a copy of the incoming Object, need to have all it's properties and such
-        const updateObj = Object.create(obj);
+        const updateObj: CloudEvent = Object.create(obj);
         // Update it with the new value
         updateObj[prop] = value;
 
         // Validate the object
-        obj.validate(updateObj);
-
+        updateObj.validate();
         // If we succeed, then Update the real object
         // Set the new value normally
         obj[prop] = value;
@@ -172,16 +171,12 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
    * @throws if the CloudEvent does not conform to the schema
    * @return {boolean} true if this event is valid
    */
-  public validate(cloudEvent?: CloudEvent): boolean {
-    if (!cloudEvent) {
-      cloudEvent = this;
-    }
-
+  public validate(): boolean {
     try {
-      if (cloudEvent.specversion === Version.V1) {
-        return validateV1(cloudEvent);
-      } else if (cloudEvent.specversion === Version.V03) {
-        return validateV03(cloudEvent);
+      if (this.specversion === Version.V1) {
+        return validateV1(this);
+      } else if (this.specversion === Version.V03) {
+        return validateV03(this);
       }
       throw new ValidationError("invalid payload");
     } catch (e) {
