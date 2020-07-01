@@ -27,8 +27,8 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
   datacontenttype?: string;
   dataschema?: string;
   subject?: string;
-  #_time?: string | Date;
-  #_data?: Record<string, unknown | string | number | boolean> | string | number | boolean | null | unknown;
+  _time?: string | Date;
+  _data?: Record<string, unknown | string | number | boolean> | string | number | boolean | null | unknown;
   data_base64?: string;
 
   // Extensions should not exist as it's own object, but instead
@@ -62,7 +62,7 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
     this.subject = properties.subject;
     delete properties.subject;
 
-    this.#_time = properties.time;
+    this._time = properties.time;
     delete properties.time;
 
     this.datacontentencoding = properties.datacontentencoding as string;
@@ -81,10 +81,10 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
     delete properties.data;
 
     // Make sure time has a default value and whatever is provided is formatted
-    if (!this.#_time) {
-      this.#_time = new Date().toISOString();
-    } else if (this.#_time instanceof Date) {
-      this.#_time = this.#_time.toISOString();
+    if (!this._time) {
+      this._time = new Date().toISOString();
+    } else if (this._time instanceof Date) {
+      this._time = this._time.toISOString();
     }
 
     // sanity checking
@@ -100,27 +100,48 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
     }
 
     this.validate();
+
+    return new Proxy(this, {
+      // obj is the instance of the CloudEvent
+      // prop is the property being set
+      // value is the value on the right side of the equal sign
+      set: function (obj, prop: string, value) {
+        // Make a copy of the incoming Object
+        const updateObj = { ...obj };
+        // Update it with the new value
+        updateObj[prop] = value;
+
+        // Validate the object
+        obj.validate(updateObj);
+
+        // If we succeed, then Update the real object
+        // Set the new value normally
+        obj[prop] = value;
+
+        return true;
+      },
+    });
   }
 
   get time(): string | Date {
-    return this.#_time as string | Date;
+    return this._time as string | Date;
   }
 
   set time(val: string | Date) {
-    this.#_time = new Date(val).toISOString();
+    this._time = new Date(val).toISOString();
   }
 
   get data(): unknown {
     if (
       this.datacontenttype === CONSTANTS.MIME_JSON &&
       !(this.datacontentencoding === CONSTANTS.ENCODING_BASE64) &&
-      isString(this.#_data)
+      isString(this._data)
     ) {
-      return JSON.parse(this.#_data as string);
-    } else if (isBinary(this.#_data)) {
-      return asBase64(this.#_data as Uint32Array);
+      return JSON.parse(this._data as string);
+    } else if (isBinary(this._data)) {
+      return asBase64(this._data as Uint32Array);
     }
-    return this.#_data;
+    return this._data;
   }
 
   set data(value: unknown) {
@@ -129,10 +150,10 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
 
   private _setData(value: unknown): void {
     if (isBinary(value)) {
-      this.#_data = value;
+      this._data = value;
       this.data_base64 = asBase64(value as Uint32Array);
     }
-    this.#_data = value;
+    this._data = value;
   }
 
   toJSON(): Record<string, unknown> {
@@ -151,12 +172,16 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
    * @throws if the CloudEvent does not conform to the schema
    * @return {boolean} true if this event is valid
    */
-  public validate(): boolean {
+  public validate(cloudEvent?: CloudEvent): boolean {
+    if (!cloudEvent) {
+      cloudEvent = this;
+    }
+
     try {
-      if (this.specversion === Version.V1) {
-        return validateV1(this);
-      } else if (this.specversion === Version.V03) {
-        return validateV03(this);
+      if (cloudEvent.specversion === Version.V1) {
+        return validateV1(cloudEvent);
+      } else if (cloudEvent.specversion === Version.V03) {
+        return validateV03(cloudEvent);
       }
       throw new ValidationError("invalid payload");
     } catch (e) {
