@@ -106,8 +106,8 @@ export class CloudEvent implements CloudEventV1, CloudEventV03 {
       // prop is the property being set
       // value is the value on the right side of the equal sign
       set: function (obj, prop: string, value) {
-        // Make a copy of the incoming Object
-        const updateObj = { ...obj };
+        // Make a copy of the incoming Object, need to have all it's properties and such
+        const updateObj = Object.create(obj);
         // Update it with the new value
         updateObj[prop] = value;
 
