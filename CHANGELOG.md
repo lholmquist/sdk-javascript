@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://www.github.com/lholmquist/sdk-javascript/compare/v2.0.1...v3.0.0) (2020-08-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* This validates the value of the cloud event extension based on the spec, 
+* This changes the modules name from cloudevents-sdk to cloudevents
+* **src:** * Extension names are now validated during object creation.  The values are defined by the specification, and can be lowercase(a-z) or digits(0-9) and must be no longer that 20 characters
+* **src:** * This change makes the CloudEvent Read-only and validates the input during object creation.
+
+### Features
+
+* add types to package.json ([#216](https://www.github.com/lholmquist/sdk-javascript/issues/216)) ([4265281](https://www.github.com/lholmquist/sdk-javascript/commit/42652819f32df245e4e314d2df3758f6e5ca6926))
+* introduce browser support ([#201](https://www.github.com/lholmquist/sdk-javascript/issues/201)) ([8b2725b](https://www.github.com/lholmquist/sdk-javascript/commit/8b2725b10a10ba5da842e23d3d2673b27ca450df))
+* pass extension into the constructor. ([#214](https://www.github.com/lholmquist/sdk-javascript/issues/214)) ([0378f4c](https://www.github.com/lholmquist/sdk-javascript/commit/0378f4cdf9fde647ac3ffe1f9fb6bd3ff0924280)), closes [#209](https://www.github.com/lholmquist/sdk-javascript/issues/209)
+* remove unused plugins ([#262](https://www.github.com/lholmquist/sdk-javascript/issues/262)) ([4014da2](https://www.github.com/lholmquist/sdk-javascript/commit/4014da26f5ae00d8846ab804ba0fb847051c44eb))
+* simplify validation logic/imports ([#265](https://www.github.com/lholmquist/sdk-javascript/issues/265)) ([4b54b27](https://www.github.com/lholmquist/sdk-javascript/commit/4b54b272a5578523c3a03b21720cb89c0d5177db))
+* use npm name cloudevents ([#260](https://www.github.com/lholmquist/sdk-javascript/issues/260)) ([565f867](https://www.github.com/lholmquist/sdk-javascript/commit/565f8674246b5f60ff78141ea9548b4137e2befc)), closes [#215](https://www.github.com/lholmquist/sdk-javascript/issues/215)
+* **src:**  A CloudEvent should be readonly but provide a way to augment itself. ([#234](https://www.github.com/lholmquist/sdk-javascript/issues/234)) ([c7a8477](https://www.github.com/lholmquist/sdk-javascript/commit/c7a84772d59647e2a94991a3051b37b097b0d404))
+* **src:** add ext name validation ([#246](https://www.github.com/lholmquist/sdk-javascript/issues/246)) ([84f1ed9](https://www.github.com/lholmquist/sdk-javascript/commit/84f1ed9cfe54d60978c525de5b0c49cf38839deb))
+
+
+### Bug Fixes
+
+* Add Correct Headers to emitted Binary Event ([#302](https://www.github.com/lholmquist/sdk-javascript/issues/302)) ([ad0c434](https://www.github.com/lholmquist/sdk-javascript/commit/ad0c4340b2b3cf8a6204f7fb9e1df140092e23c9)), closes [#301](https://www.github.com/lholmquist/sdk-javascript/issues/301)
+* add correct types to improve TypeScript behavior ([#202](https://www.github.com/lholmquist/sdk-javascript/issues/202)) ([da365e0](https://www.github.com/lholmquist/sdk-javascript/commit/da365e09ebcb493f63e6962800230899f1b978ad))
+* do not require an HTTP body on incoming binary event messages ([a7c326b](https://www.github.com/lholmquist/sdk-javascript/commit/a7c326b48cf702a077fc4af1eda3f686429ba9df))
+* ensure that data encoded as base64 is parsed as an object ([#285](https://www.github.com/lholmquist/sdk-javascript/issues/285)) ([ed9ea95](https://www.github.com/lholmquist/sdk-javascript/commit/ed9ea956d73491cc890751bf1baf4f0be828a9cb))
+* ensure that event data can be an array, number, boolean or null ([#281](https://www.github.com/lholmquist/sdk-javascript/issues/281)) ([b99f728](https://www.github.com/lholmquist/sdk-javascript/commit/b99f7281904b41d9058fec8f51019c5937821dc9))
+* ensure that the HTTP receiver sanitizes headers in accept() ([#239](https://www.github.com/lholmquist/sdk-javascript/issues/239)) ([51035dc](https://www.github.com/lholmquist/sdk-javascript/commit/51035dc65b98ce7912d57a78d214612c05c5dc00))
+* fix references to constants - remove .js extension ([#200](https://www.github.com/lholmquist/sdk-javascript/issues/200)) ([c757a2b](https://www.github.com/lholmquist/sdk-javascript/commit/c757a2bce1e5432c420db7a4ae4755058964cff7))
+* package.json & package-lock.json to reduce vulnerabilities ([#253](https://www.github.com/lholmquist/sdk-javascript/issues/253)) ([2ed5f84](https://www.github.com/lholmquist/sdk-javascript/commit/2ed5f844570efdf3ccc301fd5854fe4100921e04))
+* parse method mutating its input ([#231](https://www.github.com/lholmquist/sdk-javascript/issues/231)) ([060b21b](https://www.github.com/lholmquist/sdk-javascript/commit/060b21ba36a37afc9002fe2e3d2d3b161633f9ae))
+* update browser name to cloudevents. ([#292](https://www.github.com/lholmquist/sdk-javascript/issues/292)) ([48d182b](https://www.github.com/lholmquist/sdk-javascript/commit/48d182bc5f3c6f7feb6dec9ce5bb68ff5ad14e66)), closes [#286](https://www.github.com/lholmquist/sdk-javascript/issues/286)
+* upgrade uuid from 8.0.0 to 8.1.0 ([#220](https://www.github.com/lholmquist/sdk-javascript/issues/220)) ([25077a9](https://www.github.com/lholmquist/sdk-javascript/commit/25077a9b43bc2e54cd52266fb664a9c523d3f65c))
+* upgrade uuid from 8.1.0 to 8.2.0 ([#250](https://www.github.com/lholmquist/sdk-javascript/issues/250)) ([13bcdb4](https://www.github.com/lholmquist/sdk-javascript/commit/13bcdb4b9817bcf28991269f554f73893b42b458))
+* use /lib in gitignore so src/lib is not ignored ([#199](https://www.github.com/lholmquist/sdk-javascript/issues/199)) ([fba3294](https://www.github.com/lholmquist/sdk-javascript/commit/fba3294ce04a30be0e5ab551a1fa01727dc8d1f8))
+
+
+### lib
+
+* validate extension values ([#251](https://www.github.com/lholmquist/sdk-javascript/issues/251)) ([3c8273f](https://www.github.com/lholmquist/sdk-javascript/commit/3c8273f1140455ce8346918942c44dda241ead4c))
+
 ### [3.0.1](https://github.com/cloudevents/sdk-javascript/compare/v3.0.0...v3.0.1) (2020-07-29)
 
 
