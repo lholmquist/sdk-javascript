@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://www.github.com/lholmquist/sdk-javascript/compare/v3.1.0...v3.2.0) (2020-08-26)
+
+
+### Features
+
+* introduce Message, Serializer, Deserializer and Binding interfaces ([#324](https://www.github.com/lholmquist/sdk-javascript/issues/324)) ([f3953a9](https://www.github.com/lholmquist/sdk-javascript/commit/f3953a9a5abf5c0267247f9939cf567a47eccd91))
+
+
+### Bug Fixes
+
+* upgrade uuid from 8.2.0 to 8.3.0 ([#317](https://www.github.com/lholmquist/sdk-javascript/issues/317)) ([6e2390e](https://www.github.com/lholmquist/sdk-javascript/commit/6e2390ed6b3fa80474ce452581e52eeb13ffe995))
+
 ## [3.1.0](https://github.com/cloudevents/sdk-javascript/compare/v3.0.1...v3.1.0) (2020-08-11)
 
 
