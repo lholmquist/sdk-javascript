@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://www.github.com/lholmquist/sdk-javascript/compare/v3.1.0...v4.0.0) (2020-10-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **event:** make the event's time property only a string (#330)
+
+### Features
+
+* add a constructor parameter for loose validation ([#328](https://www.github.com/lholmquist/sdk-javascript/issues/328)) ([1fa3a05](https://www.github.com/lholmquist/sdk-javascript/commit/1fa3a05aed84bb4bdb225b3e2e11aba60d80efe8))
+* add emitterFactory and friends ([#342](https://www.github.com/lholmquist/sdk-javascript/issues/342)) ([e334b6e](https://www.github.com/lholmquist/sdk-javascript/commit/e334b6eceb0227196bacea6a843c268489a7b71b))
+* introduce Message, Serializer, Deserializer and Binding interfaces ([#324](https://www.github.com/lholmquist/sdk-javascript/issues/324)) ([f3953a9](https://www.github.com/lholmquist/sdk-javascript/commit/f3953a9a5abf5c0267247f9939cf567a47eccd91))
+
+
+### Bug Fixes
+
+* do not alter an event's data attribute ([#344](https://www.github.com/lholmquist/sdk-javascript/issues/344)) ([1446898](https://www.github.com/lholmquist/sdk-javascript/commit/14468980f7a79da836bd3ee8304a8a5710a206c1))
+* extend Node.js IncomingHttpHeaders in our Headers type ([#346](https://www.github.com/lholmquist/sdk-javascript/issues/346)) ([f6be285](https://www.github.com/lholmquist/sdk-javascript/commit/f6be285b8319919029d8c11f7bb49cac4bcc5c14))
+* package.json & package-lock.json to reduce vulnerabilities ([#338](https://www.github.com/lholmquist/sdk-javascript/issues/338)) ([eca43d9](https://www.github.com/lholmquist/sdk-javascript/commit/eca43d907468dd07d9f291bb56f95f658f4b3c40))
+* upgrade cloudevents from 3.0.1 to 3.1.0 ([#335](https://www.github.com/lholmquist/sdk-javascript/issues/335)) ([7423acb](https://www.github.com/lholmquist/sdk-javascript/commit/7423acb7fc4d431cc8d335fd5ccb1ad4a1f28a65))
+
+
+### Tests
+
+* implement pending tests leftover from TS rewrite ([#315](https://www.github.com/lholmquist/sdk-javascript/issues/315)) ([b5cf886](https://www.github.com/lholmquist/sdk-javascript/commit/b5cf8865b98ae2b91407f4c5d90a7afd977ee96e))
+
+
+### Miscellaneous
+
+* add an automated GH action for releases ([#329](https://www.github.com/lholmquist/sdk-javascript/issues/329)) ([a9114b7](https://www.github.com/lholmquist/sdk-javascript/commit/a9114b712308efaca11c9e5f485948af5bb9e4bc))
+* update release please to the latest release(2.4.1) ([#345](https://www.github.com/lholmquist/sdk-javascript/issues/345)) ([76688c4](https://www.github.com/lholmquist/sdk-javascript/commit/76688c4c01554cbbad62ac1b719ef00c9328848b))
+* **event:** make the event's time property only a string ([#330](https://www.github.com/lholmquist/sdk-javascript/issues/330)) ([6cd310c](https://www.github.com/lholmquist/sdk-javascript/commit/6cd310c14168013a4298f87fd8ec3ef51782d7ce))
+* **example:** Replaced body parser with express JSON parser ([#334](https://www.github.com/lholmquist/sdk-javascript/issues/334)) ([4779d89](https://www.github.com/lholmquist/sdk-javascript/commit/4779d89ad054973cb0af8ec4119e073b78970392))
+* add cucumber.js to list of files to lint and /docs to .gitignore ([#327](https://www.github.com/lholmquist/sdk-javascript/issues/327)) ([17d4bc8](https://www.github.com/lholmquist/sdk-javascript/commit/17d4bc85dfa9b8ecfcc3383c6154ed9aa2f37496))
+* Remove commented version import. ([#319](https://www.github.com/lholmquist/sdk-javascript/issues/319)) ([0adcc35](https://www.github.com/lholmquist/sdk-javascript/commit/0adcc3532d8826254d4febfa2dc0b03dd4fe13b7))
+* typo ([#313](https://www.github.com/lholmquist/sdk-javascript/issues/313)) ([81623ac](https://www.github.com/lholmquist/sdk-javascript/commit/81623ac443b7e68a595061357946a164edf446e6))
+* Update README with correct links for the support specification versions ([#321](https://www.github.com/lholmquist/sdk-javascript/issues/321)) ([73f0bec](https://www.github.com/lholmquist/sdk-javascript/commit/73f0becc2b8e4f10ae40e23b77e4161d9b5ff611)), closes [#320](https://www.github.com/lholmquist/sdk-javascript/issues/320)
+* Update references of master to main ([#316](https://www.github.com/lholmquist/sdk-javascript/issues/316)) ([4bf2eb8](https://www.github.com/lholmquist/sdk-javascript/commit/4bf2eb838a32275433793e0692e32a373685f41e))
+* validate cloudevent version agnostic ([#311](https://www.github.com/lholmquist/sdk-javascript/issues/311)) ([8ac3eb0](https://www.github.com/lholmquist/sdk-javascript/commit/8ac3eb0c69d980a4475052ce3f102b8b88602fa5))
+
+
+### Documentation
+
+* update README with latest API changes ([#347](https://www.github.com/lholmquist/sdk-javascript/issues/347)) ([138de37](https://www.github.com/lholmquist/sdk-javascript/commit/138de3708463101e12428db6f456cfebf41a5093))
+* update README with maintainer names ([#337](https://www.github.com/lholmquist/sdk-javascript/issues/337)) ([0a12146](https://www.github.com/lholmquist/sdk-javascript/commit/0a121465650ea2fac388a1df9c352a732ead0079))
+
 ## [3.1.0](https://github.com/cloudevents/sdk-javascript/compare/v3.0.1...v3.1.0) (2020-08-11)
 
 
